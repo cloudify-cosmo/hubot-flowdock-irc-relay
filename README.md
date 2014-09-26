@@ -19,19 +19,26 @@ ALSO ALSO NOTE: This is currently written in javascript, not coffeescript.
 
 The following environment varaibles must be set:
 
-    HUBOT_FLOWDOCK_IRC_API_TOKEN - The Flowdock API token you want to use. This will be the user that relays all messages from the IRC channel and that is used to authenticate vs. Flowdock.
-    HUBOT_FLOWDOCK_IRC_FLOWID - The flowid of the flow to relay (e.g. 080cded7-aeea-446f-a1bb-5f5e09e66f54)
-    HUBOT_FLOWDOCK_IRC_CHANNEL - The IRC channel's name to relay (e.g. #test_irc_channel)
-    HUBOT_FLOWDOCK_IRC_SERVER - The IRC server to use (e.g. irc.freenode.com)
-    HUBOT_FLOWDOCK_IRC_RELAY_CLIENT - The default relay client to use (e.g. cosmo-admin)
+```shell
+    # The Flowdock API token you want to use. This will be the user that relays all messages from the IRC channel and that is used to authenticate vs. Flowdock.
+    HUBOT_FLOWDOCK_IRC_API_TOKEN
+    # The flowid of the flow to relay (e.g. 080cded7-aeea-446f-a1bb-5f5e09e66f54)
+    HUBOT_FLOWDOCK_IRC_FLOWID
+    # The IRC channel's name to relay (e.g. #test_irc_channel)
+    HUBOT_FLOWDOCK_IRC_CHANNEL
+    # The IRC server to use (e.g. irc.freenode.com)
+    HUBOT_FLOWDOCK_IRC_SERVER
+    # The default relay client to use (e.g. cosmo-admin)
+    HUBOT_FLOWDOCK_IRC_RELAY_CLIENT
+```
 
 ### Getting Started
 
 In your `package.json`, add the following:
 
-  "dependencies": {
-    "hubot-flowdock-irc-relay": ">=0.0.3",
-  },
+    "dependencies": {
+        "hubot-flowdock-irc-relay": ">=0.0.3",
+    },
 
 And in `external-scripts.json` make sure you have:
 
