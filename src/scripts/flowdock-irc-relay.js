@@ -18,13 +18,21 @@ var fds = new flowdock.Session(fdApiKey);
 
 module.exports = function(robot) {
 
+    console.log('fdApiKey: ' + fdApiKey);
+    console.log('fdFlowId: ' + fdFlowId);
+    console.log('ircChannel: ' + ircChannel);
+    console.log('ircServer: ' + ircServer);
+    console.log('relayUser: ' + relayUser);
+
     // TODO: make this check for new users periodically
     async.waterfall(
         [
             function (callback) {
-                fds.flows(function (flows) {
+                fds.flows(function (err, flows) {
                     flows.map(function (flow) {
-                        if (flow.id === fdFlowId) { callback(null, flow); }
+                        if (flow.id === fdFlowId) {
+                            callback(null, flow);
+                        }
                     });
                 });
             },
@@ -40,7 +48,7 @@ module.exports = function(robot) {
                 var u;
                 for (u in users) {
                     if (users.hasOwnProperty(u)) {
-                        // use to debug: console.log('logging in: ' + users[u]);
+                        console.log('logging in: ' + users[u]);
                         clients[u] = new irc.Client(ircServer, users[u], {
                             channels: [ircChannel],
                         });

@@ -30,7 +30,7 @@ The following environment varaibles must be set:
 In your `package.json`, add the following:
 
   "dependencies": {
-    "hubot-flowdock-irc-relay": ">=0.0.1",
+    "hubot-flowdock-irc-relay": ">=0.0.3",
   },
 
 And in `external-scripts.json` make sure you have:

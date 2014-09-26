@@ -11,7 +11,7 @@ path = require('path');
 
 module.exports = function(robot, scripts) {
   var scriptsPath;
-  scriptsPath = path.resolve(__dirname, 'src');
+  scriptsPath = path.resolve(__dirname, 'scripts');
   return fs.exists(scriptsPath, function(exists) {
     var script, _i, _len, _ref, _results;
     if (exists) {
