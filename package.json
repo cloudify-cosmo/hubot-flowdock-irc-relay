@@ -1,0 +1,35 @@
+{
+  "name": "hubot-flowdock-irc-relay",
+  "version": "0.0.1",
+  "author": "nir0s",
+  "description": "A Hubot based Flowdock to IRC to Flowdock relay",
+  "homepage": "https://github.com/cloudify-cosmo/hubot-flowdock-irc-relay",
+  "keywords": [
+    "irc",
+    "hubot",
+    "flowdock",
+    "bot"
+  ],
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/github/hubot/raw/master/LICENSE"
+  }],
+
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/cloudify-cosmo/hubot-flowdock-irc-relay"
+  },
+
+  "dependencies": {
+    "async": ">=0.0.1",
+    "flowdock": ">=0.0.1",
+    "irc": ">=0.0.1"
+  },
+
+  "main": "./src/index.js",
+
+  "engines": {
+    "node": ">= 0.8.x",
+    "npm":  ">= 1.1.x"
+  }
+}
