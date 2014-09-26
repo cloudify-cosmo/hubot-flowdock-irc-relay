@@ -15,7 +15,7 @@ ALSO NOTE: This relay server currently has no real direct dependency in Hubot. T
 
 ALSO ALSO NOTE: This is currently written in javascript, not coffeescript.
 
-### Env Vars
+### Required Environment Variables
 
 The following environment varaibles must be set:
 
