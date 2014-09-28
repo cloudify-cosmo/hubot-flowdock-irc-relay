@@ -4,7 +4,8 @@ var irc = require('irc');
 var flowdock = require('flowdock');
 var async = require('async');
 
-var fdApiKey = process.env.HUBOT_FLOWDOCK_IRC_API_TOKEN;
+var fdEmail = process.env.HUBOT_FLOWDOCK_LOGIN_EMAIL;
+var fdPwd = process.env.HUBOT_FLOWDOCK_LOGIN_PASSWORD;
 var fdFlowId = process.env.HUBOT_FLOWDOCK_IRC_FLOWID;
 var ircChannel = process.env.HUBOT_FLOWDOCK_IRC_CHANNEL;
 var ircServer = process.env.HUBOT_FLOWDOCK_IRC_SERVER;
@@ -14,11 +15,12 @@ var relayErrors = true;
 var fdUsers = {};
 var clients = {};
 
-var fds = new flowdock.Session(fdApiKey);
+var fds = new flowdock.Session(fdEmail, fdPwd);
 
 module.exports = function(robot) {
 
-    console.log('fdApiKey: ' + fdApiKey);
+    console.log('fdEmail: ' + fdEmail);
+    console.log('fdPwd: ' + fdPwd);
     console.log('fdFlowId: ' + fdFlowId);
     console.log('ircChannel: ' + ircChannel);
     console.log('ircServer: ' + ircServer);

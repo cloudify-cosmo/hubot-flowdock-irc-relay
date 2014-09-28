@@ -20,8 +20,10 @@ ALSO ALSO NOTE: This is currently written in javascript, not coffeescript.
 The following environment varaibles must be set:
 
 ```shell
-# The Flowdock API token you want to use (also the default relay user)
-HUBOT_FLOWDOCK_IRC_API_TOKEN
+# The Flowdock email you want to use (also the default relay user)
+HUBOT_FLOWDOCK_LOGIN_EMAIL
+# The flowdock password for the user
+HUBOT_FLOWDOCK_LOGIN_PASSWORD
 # The flowid of the flow to relay (e.g. 080cded7-aeea-446f-a1bb-5f5e09e66f54)
 HUBOT_FLOWDOCK_IRC_FLOWID
 # The IRC channel's name to relay (e.g. #test_irc_channel)
