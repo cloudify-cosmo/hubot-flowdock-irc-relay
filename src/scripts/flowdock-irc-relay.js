@@ -27,14 +27,13 @@ module.exports = function(robot) {
     console.log('ircServer: ' + ircServer);
     console.log('relayUser: ' + relayUser);
 
-    // TODO: make this check for new users periodically
     function RelayUsersToIrcClients () {
         async.waterfall(
             [
+                // get flow
                 function (callback) {
                     fds.flows(function (err, flows) {
                         flows.map(function (flow) {
-                            // console.log(flow);
                             if (flow.id === fdFlowId) {
                                 callback(null, flow);
                             }
@@ -42,6 +41,7 @@ module.exports = function(robot) {
                     });
                 },
 
+                // create users dict from the flow
                 function (flow, callback) {
                     flow.users.forEach(function (user) {
                         fdUsers[user.id] = user.nick;
@@ -49,9 +49,11 @@ module.exports = function(robot) {
                     callback(null, fdUsers);
                 },
 
+                // register irc clients for all users found
                 function (users) {
                     var u;
                     for (u in users) {
+                        // since this runs periodically, only register a new client if it wasn't already registered
                         if (users.hasOwnProperty(u) && !clients.hasOwnProperty(u)) {
                             console.log('logging in: ' + users[u]);
                             clients[u] = new irc.Client(ircServer, users[u], {
@@ -64,32 +66,39 @@ module.exports = function(robot) {
         );
     };
 
+    // periodically register new clients
     setInterval(RelayUsersToIrcClients, 1000);
 
+    // create default relay client
     var relayClient = new irc.Client(ircServer, relayUser, {
         channels: [ircChannel],
     });
 
+    // relay channel errors
     if (relayErrors) {
         relayClient.addListener('error', function (message) {
             fds.message(fdFlowId, 'CHANNEL_ERROR: ' + JSON.stringify(message), ['irc_channel_error']);
         });
     }
 
+    // relay channel messages
     relayClient.addListener('message', function (from, to, message) {
+        // echo prevention by checking for identifier
         if (message.indexOf(fdIdent) < 0) {
             fds.message(fdFlowId, '(' + to + ') ' + from + ': ' + message, []);
         }
     });
 
+    // relay flow messages
     var stream = fds.stream(fdFlowId);
     stream.on('message', function (message) {
+        // echo prevention by checking for identifier
         if (message.event === 'message' && message.content.indexOf(ircChannel) < 0) {
-            // TODO: verify non-registered user can send messages to channel
             if (clients.hasOwnProperty(message.user)) {
                 clients[message.user].say(ircChannel, fdIdent + message.content);
             } else {
-                relayClient.say(ircChannel, fdUsers[message.user] + ': ' + message.content);
+                // if a flow user isn't registered as an irc client, relay from default client
+                relayClient.say(ircChannel, message.content);
             }
         }
     });
