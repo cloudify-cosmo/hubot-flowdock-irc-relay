@@ -9,11 +9,13 @@ It will also immitate an IRC client for each flowdock user in the flow and disgu
 
 For now, the relay server defaults to posting its error messages into the flow. This might be changed in the future, but for now, will help with identifying problems.
 
-NOTE: Currently, the users list in the irc channel is updated only upon server initialization. Yes, it's stupid.. but a dynamic update will be implemented soon. If a user is connected to a flow but cannot be found in the channel, a default relay client will be used to relay the messages.
+NOTES:
 
-ALSO NOTE: This relay server currently has no real direct dependency in Hubot. That is, Hubot it simply used as an executor.
-
-ALSO ALSO NOTE: This is currently written in javascript, not coffeescript.
+- Currently, as Flowdock doesn't provide an API for distinguishing whether a user is online or just registered to a specific flow, all registered users will be relayed to the IRC channel. This might prove to be confusing. Would love to implement a workaround if someone provides one.
+- When relaying to flowdock, the IRC channel is added to the message: `(#channel_name) user: message`. This is used as an identifier to prevent echoing.
+- When relaying to IRC, A `(flowdock)` string is added to the message. This is used as an identifier to prevent echoing.
+- This relay server currently has no real direct dependency in Hubot. That is, Hubot it simply used as an executor.
+- This is currently written in javascript, not coffeescript.
 
 ### Required Environment Variables
 
@@ -39,7 +41,7 @@ HUBOT_FLOWDOCK_IRC_RELAY_CLIENT
 In your `package.json`, add the following:
 
     "dependencies": {
-        "hubot-flowdock-irc-relay": ">=0.0.3",
+        "hubot-flowdock-irc-relay": ">=0.0.4",
     },
 
 And in `external-scripts.json` make sure you have:
