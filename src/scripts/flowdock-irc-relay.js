@@ -11,7 +11,10 @@ var ircChannel = process.env.HUBOT_FLOWDOCK_IRC_CHANNEL;
 var ircServer = process.env.HUBOT_FLOWDOCK_IRC_SERVER;
 var relayUser = process.env.HUBOT_FLOWDOCK_IRC_RELAY_CLIENT;
 var relayErrors = true;
-var fdIdent = '(flowdock) '
+var fdIdent = '(flowdock) ';
+var heartBeatEnabled = process.env.HEARTBEAT_ENABLED;
+var heartBeatInterval = process.env.HEARTBEAT_INTERVAL || 43200;
+var heartBeatMessage = process.env.HEARTBEAT_MESSAGE || 'I LIVE!';
 
 var fdUsers = {};
 var clients = {};
@@ -64,6 +67,15 @@ module.exports = function(robot) {
                 }
             ]
         );
+    };
+
+    function SendHeartBeat () {
+        fds.message(fdFlowId, heartBeatMessage);
+    };
+
+    // send a heartbeat to the flow
+    if (heartBeatEnabled) {
+        setInterval(SendHeartBeat, heartBeatInterval);
     };
 
     // periodically register new clients
