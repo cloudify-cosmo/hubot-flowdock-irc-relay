@@ -10,11 +10,13 @@ var fdFlowId = process.env.HUBOT_FLOWDOCK_IRC_FLOWID;
 var ircChannel = process.env.HUBOT_FLOWDOCK_IRC_CHANNEL;
 var ircServer = process.env.HUBOT_FLOWDOCK_IRC_SERVER;
 var relayUser = process.env.HUBOT_FLOWDOCK_IRC_RELAY_CLIENT;
+var refreshUsersInterval = 10000;
 var relayErrors = true;
 var fdIdent = '(flowdock) ';
-var heartBeatEnabled = true;
-var heartBeatInterval = process.env.HEARTBEAT_INTERVAL || '43200';
-var heartBeatMessage = process.env.HEARTBEAT_MESSAGE || 'I LIVE!';
+var heartBeatEnabled = process.env.HEARTBEAT_ENABLED;
+var heartBeatInterval = process.env.HEARTBEAT_INTERVAL || '86400000';
+var heartBeatMessage = process.env.HEARTBEAT_MESSAGE || 'Flowdock-IRC Relay is ALIVE! ALIVE!!! Muhahaha';
+var heartBeatFlowId = process.env.HEARTBEAT_FLOWID || fdFlowId;
 
 var fdUsers = {};
 var clients = {};
@@ -30,8 +32,15 @@ module.exports = function(robot) {
     console.log('ircServer: ' + ircServer);
     console.log('relayUser: ' + relayUser);
 
+    // aid to get all flows. DEV purposes.
+    // fds.flows(function(err, flows) {
+    //   var anotherStream, flowIds;
+    //   flowIds = flows.map(function(f) {
+    //     console.log('id:' + f.id + ' name:' + f.name)
+    //   });
+    // });
+
     function relayUsersToIrcClients () {
-        console.log('Refreshing users list...')
         async.waterfall(
             [
                 // get flow
@@ -72,17 +81,17 @@ module.exports = function(robot) {
 
     function sendHeartBeat () {
         console.log('Sending HeartBeat...')
-        fds.message(fdFlowId, heartBeatMessage);
+        fds.message(heartBeatFlowId, heartBeatMessage);
     };
 
     // send a heartbeat to the flow
     if (heartBeatEnabled) {
-        console.log('HeartBeat is enabled...')
+        console.log('HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 + ' seconds.')
         setInterval(sendHeartBeat, parseInt(heartBeatInterval));
     };
 
     // periodically register new clients
-    setInterval(relayUsersToIrcClients, 1000);
+    setInterval(relayUsersToIrcClients, refreshUsersInterval);
 
     // create default relay client
     var relayClient = new irc.Client(ircServer, relayUser, {
