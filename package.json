@@ -1,6 +1,6 @@
 {
   "name": "hubot-flowdock-irc-relay",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "nir0s",
   "description": "A Hubot based Flowdock to IRC to Flowdock relay",
   "homepage": "https://github.com/cloudify-cosmo/hubot-flowdock-irc-relay",
