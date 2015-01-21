@@ -15,7 +15,7 @@ NOTES:
 - When relaying to flowdock, the IRC channel is added to the message: `(#channel_name) user: message`. This is used as an identifier to prevent echoing.
 - When relaying to IRC, A `(flowdock)` string is added to the message. This is used as an identifier to prevent echoing.
 - This relay server currently has no real direct dependency in Hubot. That is, Hubot it simply used as an executor.
-- This is currently written in javascript, not coffeescript.
+- This is currently written in javascript, not coffeescript (DUH!)
 
 ### Required Environment Variables
 
@@ -34,6 +34,14 @@ HUBOT_FLOWDOCK_IRC_CHANNEL
 HUBOT_FLOWDOCK_IRC_SERVER
 # The default relay client to use (e.g. cosmo-admin)
 HUBOT_FLOWDOCK_IRC_RELAY_CLIENT
+# Whether heartbeat messages should be sent to the flow (defaults to False. Any other value will be True)
+HEARTBEAT_ENABLED
+# The interval in which heatbeat messages are sent (defaults to 43200000 (12 hours))
+HEARTBEAT_INTERVAL
+# The flow to send the heartbeat message to (defaults to HUBOT_FLOWDOCK_IRC_FLOWID)
+HEARTBEAT_FLOWID
+# The heartbeat message to send (defaults to 'Flowdock-IRC Relay is still ALIVE! MUHAHAHAHA')
+HEARTBEAT_MESSAGE
 ```
 
 ### Getting Started

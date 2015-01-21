@@ -14,8 +14,8 @@ var refreshUsersInterval = 10000;
 var relayErrors = true;
 var fdIdent = '(flowdock) ';
 var heartBeatEnabled = process.env.HEARTBEAT_ENABLED;
-var heartBeatInterval = process.env.HEARTBEAT_INTERVAL || '86400000';
-var heartBeatMessage = process.env.HEARTBEAT_MESSAGE || 'Flowdock-IRC Relay is ALIVE! ALIVE!!! Muhahaha';
+var heartBeatInterval = process.env.HEARTBEAT_INTERVAL || '43200000';
+var heartBeatMessage = process.env.HEARTBEAT_MESSAGE || 'Flowdock-IRC Relay is still ALIVE! MUHAHAHAHA';
 var heartBeatFlowId = process.env.HEARTBEAT_FLOWID || fdFlowId;
 
 var fdUsers = {};
@@ -25,12 +25,17 @@ var fds = new flowdock.Session(fdEmail, fdPwd);
 
 module.exports = function(robot) {
 
+    fds.message(heartBeatFlowId, 'Flowdock-IRC Relay is up and running!');
     console.log('fdEmail: ' + fdEmail);
     console.log('fdPwd: ' + fdPwd);
     console.log('fdFlowId: ' + fdFlowId);
     console.log('ircChannel: ' + ircChannel);
     console.log('ircServer: ' + ircServer);
     console.log('relayUser: ' + relayUser);
+    console.log('heartBeatEnabled: ' + heartBeatEnabled)
+    console.log('heartBeatInterval: ' + heartBeatInterval)
+    console.log('heartBeatMessage: ' + heartBeatMessage)
+    console.log('heartBeatFlowId: ' + heartBeatFlowId)
 
     // aid to get all flows. DEV purposes.
     // fds.flows(function(err, flows) {
@@ -86,7 +91,8 @@ module.exports = function(robot) {
 
     // send a heartbeat to the flow
     if (heartBeatEnabled) {
-        console.log('HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 + ' seconds.')
+        console.log('HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 / 60 + ' hours.')
+        fds.message(heartBeatFlowId, 'HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 / 60 + ' hours.')
         setInterval(sendHeartBeat, parseInt(heartBeatInterval));
     };
 
