@@ -12,7 +12,7 @@ var ircServer = process.env.HUBOT_FLOWDOCK_IRC_SERVER;
 var relayUser = process.env.HUBOT_FLOWDOCK_IRC_RELAY_CLIENT;
 var relayErrors = true;
 var fdIdent = '(flowdock) ';
-var heartBeatEnabled = process.env.HEARTBEAT_ENABLED;
+var heartBeatEnabled = true;
 var heartBeatInterval = process.env.HEARTBEAT_INTERVAL || '43200';
 var heartBeatMessage = process.env.HEARTBEAT_MESSAGE || 'I LIVE!';
 
@@ -30,7 +30,8 @@ module.exports = function(robot) {
     console.log('ircServer: ' + ircServer);
     console.log('relayUser: ' + relayUser);
 
-    function RelayUsersToIrcClients () {
+    function relayUsersToIrcClients () {
+        console.log('Refreshing users list...')
         async.waterfall(
             [
                 // get flow
@@ -69,17 +70,19 @@ module.exports = function(robot) {
         );
     };
 
-    function SendHeartBeat () {
+    function sendHeartBeat () {
+        console.log('Sending HeartBeat...')
         fds.message(fdFlowId, heartBeatMessage);
     };
 
     // send a heartbeat to the flow
     if (heartBeatEnabled) {
-        setInterval(SendHeartBeat, parseInt(heartBeatInterval));
+        console.log('HeartBeat is enabled...')
+        setInterval(sendHeartBeat, parseInt(heartBeatInterval));
     };
 
     // periodically register new clients
-    setInterval(RelayUsersToIrcClients, 1000);
+    setInterval(relayUsersToIrcClients, 1000);
 
     // create default relay client
     var relayClient = new irc.Client(ircServer, relayUser, {
