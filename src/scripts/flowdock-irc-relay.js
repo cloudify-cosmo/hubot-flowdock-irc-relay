@@ -91,8 +91,8 @@ module.exports = function(robot) {
 
     // send a heartbeat to the flow
     if (heartBeatEnabled) {
-        console.log('HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 / 60 + ' hours.')
-        fds.message(heartBeatFlowId, 'HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 / 60 + ' hours.')
+        console.log('HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 / 60 / 60 + ' hours.')
+        fds.message(heartBeatFlowId, 'HeartBeat is enabled. It will be sent every ' + heartBeatInterval / 1000 / 60 / 60 + ' hours.')
         setInterval(sendHeartBeat, parseInt(heartBeatInterval));
     };
 
